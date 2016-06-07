@@ -236,7 +236,7 @@ class Daemonize(Daemon):
     def run(self):
         """If --daemon is set we run the tracker function
         """
-        logging.basicConfig(filename='/var/log/endpointtracker-' + args.mysqldatabase + '.log',
+        logging.basicConfig(filename='/var/log/' + self.args.mysqldatabase + '.log',
                             level=logging.INFO,
                             format=('%(asctime)s %(message)s'))
         logging.info('Starting endpointtracker')
@@ -264,11 +264,11 @@ def main():
 
     if args.daemon or args.kill or args.restart:
         args.daemon = True
-        
-        pid = '/var/run/endpointtracker-' + database + '.pid'
-        stdin='/var/log/endpointtracker-' + database + '.log'
-        stdout='/var/log/endpointtracker-' + database + '.log'
-        stderr='/var/log/endpointtracker-' + database + '.log'
+
+        pid = '/var/run/' + database + '.pid'
+        stdin='/var/log/' + database + '.log'
+        stdout='/var/log/' + database + '.log'
+        stderr='/var/log/' + database + '.log'
         daemon = Daemonize(args, pid, stdin, stdout, stderr)
 
     if args.kill:
