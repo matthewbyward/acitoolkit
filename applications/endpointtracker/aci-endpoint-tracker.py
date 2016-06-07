@@ -223,9 +223,9 @@ class Daemonize(Daemon):
     def __init__(self,
                  args,
                  pidfile,
-                 stdin='/var/log/endpointtracker.log',
-                 stdout='/var/log/endpointtracker.log',
-                 stderr='/var/log/endpointtracker.log'
+                 stdin,
+                 stdout,
+                 stderr
                  ):
         self.args = args
         if not os.path.isfile(stdout):
@@ -260,11 +260,16 @@ def main():
     creds = aci.Credentials(qualifier=('apic', 'mysql', 'daemon'),
                             description=description)
     args = creds.get()
+    database = args.mysqldatabase
 
     if args.daemon or args.kill or args.restart:
-        args.daemon = Tru
-        pid = '/var/run/endpointtracker.pid'
-        daemon = Daemonize(args, pid)
+        args.daemon = True
+        
+        pid = '/var/run/endpointtracker-' + database + '.pid'
+        stdin='/var/log/endpointtracker-' + database + '.log',
+        stdout='/var/log/endpointtracker-' + database + '.log',
+        stderr='/var/log/endpointtracker-' + database + '.log'
+        daemon = Daemonize(args, pid, stdin, stdout, stderr)
 
     if args.kill:
         daemon.stop()
