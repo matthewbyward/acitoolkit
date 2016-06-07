@@ -51,11 +51,12 @@ def populate_data(mysql_ip, mysql_username, mysql_password):
     :return: String containing the data in HTML format
     """
     # Create the MySQL database
+    database = args.mysqldatabase
     cnx = mysql.connect(user=mysql_username, password=mysql_password,
                         host=mysql_ip,
-                        database='endpointtracker')
+                        database=database)
     c = cnx.cursor()
-    c.execute('USE endpointtracker;')
+    c.execute('USE '+ database + ';')
     c.execute('SELECT * FROM endpoints;')
 
     data = ''
@@ -86,7 +87,6 @@ def display_table():
     return render_template('main.html', data=populate_data(args.mysqlip,
                                                            args.mysqllogin,
                                                            args.mysqlpassword))
-
 
 if __name__ == '__main__':
     description = ('Simple application that logs on to the APIC '
