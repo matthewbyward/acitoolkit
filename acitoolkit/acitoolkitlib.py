@@ -103,6 +103,7 @@ class Credentials(object):
             DEFAULT_MYSQL_IP = set_default('mysqlip')
             DEFAULT_MYSQL_LOGIN = set_default('mysqllogin')
             DEFAULT_MYSQL_PASSWORD = set_default('mysqlpassword')
+            DEFAULT_MYSQL_DATABASE = set_default('mysqldatabase')
             self._parser.add_argument('-i', '--mysqlip',
                                       default=DEFAULT_MYSQL_IP,
                                       help='MySQL IP address.')
@@ -112,6 +113,9 @@ class Credentials(object):
             self._parser.add_argument('-s', '--mysqlpassword',
                                       default=DEFAULT_MYSQL_PASSWORD,
                                       help='MySQL login password.')
+            self._parser.add_argument('--mysqldatabase', 
+                                      default=DEFAULT_MYSQL_DATABASE,
+                                      help='MySQL Database Name')
         if 'daemon' in qualifier:
             self._parser.add_argument('-d', '--daemon',
                                       help='Run as a Daemon',
@@ -222,6 +226,10 @@ class Credentials(object):
             if self._args.mysqlpassword is None:
                 prompt = 'MySQL Password: '
                 self._args.mysqlpassword = self._get_password(prompt)
+            if self._args.mysqldatabase is None:
+                prompt = 'MySQL Database: '
+                self._args.mysqldatabase = self._get_from_user(prompt)
+            
 
 
 class AcitoolkitGraphBuilder(object):

@@ -79,15 +79,19 @@ def connect_mysql(args):
     cnx = mysql.connect(user=args.mysqllogin,
                         password=args.mysqlpassword,
                         host=args.mysqlip)
+    
+    database = args.mysqldatabase
+    
     if args.daemon:
-        logging.info("Connecting to mysql database")
+        logging.info("Connecting to mysql database" . database)
     c = cnx.cursor()
+    
 
     with warnings.catch_warnings():
         warnings.filterwarnings('ignore')
-        c.execute('CREATE DATABASE IF NOT EXISTS endpointtracker;')
+        c.execute('CREATE DATABASE IF NOT EXISTS ' + database + ';')
         cnx.commit()
-    c.execute('USE endpointtracker;')
+    c.execute('USE ' + database + ';')
     with warnings.catch_warnings():
         warnings.filterwarnings('ignore')
         c.execute('''CREATE TABLE IF NOT EXISTS endpoints (
@@ -232,7 +236,7 @@ class Daemonize(Daemon):
     def run(self):
         """If --daemon is set we run the tracker function
         """
-        logging.basicConfig(filename='/var/log/endpointtracker.log',
+        logging.basicConfig(filename='/var/log/endpointtracker-' + args.mysqldatabase + '.log',
                             level=logging.INFO,
                             format=('%(asctime)s %(message)s'))
         logging.info('Starting endpointtracker')
@@ -258,7 +262,7 @@ def main():
     args = creds.get()
 
     if args.daemon or args.kill or args.restart:
-        args.daemon = True
+        args.daemon = Tru
         pid = '/var/run/endpointtracker.pid'
         daemon = Daemonize(args, pid)
 
