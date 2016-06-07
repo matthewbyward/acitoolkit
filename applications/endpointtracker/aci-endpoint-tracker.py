@@ -83,7 +83,7 @@ def connect_mysql(args):
     database = args.mysqldatabase
     
     if args.daemon:
-        logging.info("Connecting to mysql database" . database)
+        logging.info("Connecting to mysql database" + database)
     c = cnx.cursor()
     
 
