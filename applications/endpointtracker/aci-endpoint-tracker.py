@@ -266,8 +266,8 @@ def main():
         args.daemon = True
         
         pid = '/var/run/endpointtracker-' + database + '.pid'
-        stdin='/var/log/endpointtracker-' + database + '.log',
-        stdout='/var/log/endpointtracker-' + database + '.log',
+        stdin='/var/log/endpointtracker-' + database + '.log'
+        stdout='/var/log/endpointtracker-' + database + '.log'
         stderr='/var/log/endpointtracker-' + database + '.log'
         daemon = Daemonize(args, pid, stdin, stdout, stderr)
 
